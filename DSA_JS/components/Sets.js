@@ -59,7 +59,7 @@ var mySet = function () {
     });
 
     secondSet.forEach(function (e) {
-      union.add(e);
+      unionSet.add(e);
     });
 
     return unionSet;
@@ -86,9 +86,54 @@ var mySet = function () {
     var firstSet = this.values();
 
     firstSet.forEach(function (e) {
-      if (otherSet.has(e)) {
+      if (!otherSet.has(e)) {
         differenceSet.add(e);
       }
     });
+
+    return differenceSet;
+  };
+
+  //this method will test if the set is subset of different set
+  //test if the firstSet is contained in secondSet/otherSet
+  this.subset = function (otherSet) {
+    var firstSet = this.values();
+
+    return firstSet.every(function (value) {
+      return otherSet.has(value);
+    });
   };
 };
+
+var setA = new mySet();
+var setB = new mySet();
+
+setA.add("v");
+setA.add("c");
+setB.add("q");
+setB.add("v");
+setB.add("r");
+
+console.log(setA.subset(setB));
+
+console.log(setA.values());
+console.log(setB.values());
+
+console.log("intersection", setA.intersection(setB).values());
+console.log("difference", setA.difference(setB).values());
+console.log("union", setA.union(setB).values());
+
+// ES6 Set
+
+var setC = new Set();
+var setD = new Set();
+
+setC.add("a");
+setD.add("b");
+setD.add("a");
+setD.add("d");
+setD.add("f");
+console.log(setD.values()); //returns an iterator
+setD.delete("a");
+console.log(setD.has("a"));
+console.log(setD.add("a")); //returns full set
